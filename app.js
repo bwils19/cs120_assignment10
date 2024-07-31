@@ -21,10 +21,14 @@ MongoClient.connect(uri, {
 .then(client => {
   console.log('Connected to database');
   db = client.db('mass_zips');
+
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
 })
 .catch(error => {
   console.error('Failed to connect to the database:', error);
-  process.exit(1); 
+  process.exit(1);
 });
 
 app.get('/', (req, res) => {
@@ -51,8 +55,4 @@ app.post('/process', async (req, res) => {
     console.error('Error during database query:', error);
     res.status(500).send('An error occurred!');
   }
-});
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
 });
