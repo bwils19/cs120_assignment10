@@ -22,7 +22,7 @@ MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 
 // Routes
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/index.html');
+  res.sendFile(__dirname + '/index.html');
 });
 
 app.post('/process', async (req, res) => {
