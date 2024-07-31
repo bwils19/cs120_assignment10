@@ -16,7 +16,7 @@ MongoClient.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   tls: true,
-  tlsAllowInvalidCertificates: true // Add this line to allow invalid certificates
+  tlsAllowInvalidCertificates: true 
 })
 .then(client => {
   console.log('Connected to database');
