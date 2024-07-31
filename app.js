@@ -4,23 +4,26 @@ const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
 const app = express();
+const port = process.env.PORT || 3000;
 const uri = process.env.MONGO_URI;
 let db;
 
-// Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
-// Connect to MongoDB
-MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(client => {
-    console.log('connected to db...');
-    db = client.db('mass_zips');
-  })
-  .catch(error => console.error(error));
+MongoClient.connect(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  tls: true,
+  tlsCAFile: '/etc/ssl/certs/ca-certificates.crt'
+})
+.then(client => {
+  console.log('connected to db...');
+  db = client.db('mass_zips');
+})
+.catch(error => console.error('Failed to connect to the database:', error));
 
-// Routes
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
