@@ -19,10 +19,13 @@ MongoClient.connect(uri, {
   tlsCAFile: '/etc/ssl/certs/ca-certificates.crt'
 })
 .then(client => {
-  console.log('connected to db...');
+  console.log('Connected to database');
   db = client.db('mass_zips');
 })
-.catch(error => console.error('Failed to connect to the database:', error));
+.catch(error => {
+  console.error('Failed to connect to the database:', error);
+  process.exit(1); 
+});
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
@@ -45,7 +48,7 @@ app.post('/process', async (req, res) => {
 
     res.render('result', { result: result });
   } catch (error) {
-    console.error(error);
+    console.error('Error during database query:', error);
     res.status(500).send('An error occurred!');
   }
 });
