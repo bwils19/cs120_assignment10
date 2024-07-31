@@ -16,7 +16,7 @@ MongoClient.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   tls: true,
-  tlsCAFile: '/etc/ssl/certs/ca-certificates.crt'
+  tlsAllowInvalidCertificates: true // Add this line to allow invalid certificates
 })
 .then(client => {
   console.log('Connected to database');
@@ -28,7 +28,7 @@ MongoClient.connect(uri, {
 })
 .catch(error => {
   console.error('Failed to connect to the database:', error);
-  process.exit(1);
+  process.exit(1); 
 });
 
 app.get('/', (req, res) => {
