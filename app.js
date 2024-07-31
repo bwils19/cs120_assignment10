@@ -1,11 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { MongoClient } = require('mongodb');
-// require('dotenv').config();
+require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 const uri = process.env.MONGO_URI;
+
 let db;
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -16,20 +17,20 @@ MongoClient.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   tls: true,
-  tlsAllowInvalidCertificates: true 
+  tlsAllowInvalidCertificates: true // Allow invalid certificates
 })
-.then(client => {
-  console.log('Connected to database');
-  db = client.db('mass_zips');
+  .then(client => {
+    console.log('Connected to database');
+    db = client.db('mass_zips');
 
-  app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  })
+  .catch(error => {
+    console.error('Failed to connect to the database:', error);
+    process.exit(1); // Exit the process with a failure code
   });
-})
-.catch(error => {
-  console.error('Failed to connect to the database:', error);
-  process.exit(1); 
-});
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
@@ -42,6 +43,10 @@ app.post('/process', async (req, res) => {
   let result;
 
   try {
+    if (!db) {
+      throw new Error('Database connection not established');
+    }
+    
     if (isZip) {
       query = { zips: input };
       result = await db.collection('zips').findOne(query);
