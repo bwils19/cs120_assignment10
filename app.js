@@ -15,9 +15,7 @@ app.set('view engine', 'ejs');
 
 MongoClient.connect(uri, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
-  tls: true,
-  tlsAllowInvalidCertificates: true // Allow invalid certificates
+  useUnifiedTopology: true
 })
   .then(client => {
     console.log('Connected to database');
@@ -29,7 +27,7 @@ MongoClient.connect(uri, {
   })
   .catch(error => {
     console.error('Failed to connect to the database:', error);
-    process.exit(1); // Exit the process with a failure code
+    process.exit(1); 
   });
 
 app.get('/', (req, res) => {
