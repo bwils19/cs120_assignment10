@@ -9,6 +9,7 @@ let db;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
+app.set('views', __dirname);
 app.set('view engine', 'ejs');
 
 const connectToMongo = async () => {
