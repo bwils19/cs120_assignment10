@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+</head>
+<body>
+    <% if (result) { %>
+        <h1>Result</h1>
+        <p><strong>City:</strong> <%= result.city %></p>
+        <p><strong>Zip Codes:</strong> <%= result.zips.join(', ') %></p>
+    <% } else { %>
+        <h1>No Results Found</h1>
+    <% } %>
+    <a href="/">Back to Home</a>
+</body>
+</html>
